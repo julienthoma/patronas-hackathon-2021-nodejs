@@ -39,8 +39,6 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
     shotgun: <AssaultShotgun />,
     crossbow: <Crossbow />,
     rpg_rocket: <RPG />,
-    gauss: null,
-    egon: null,
     hornet: <Hornet />,
     grenade: <Grenade />,
     'gluon gun': <GlounGun />,
@@ -60,11 +58,18 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
   };
 
   return (
-    <TableContainer component={Paper}>
+    <div>
       {killFeedItems.map((killFeedItem, index) => {
         return (
           <Box key={index} m={0.5} height={56} display="flex" alignItems="center" bgcolor="#262424">
-            <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
+            <Box
+              className="player"
+              p={2}
+              maxWidth={200}
+              white-space="nowrap"
+              overflow="hidden"
+              text-overflow="ellipsis"
+            >
               <Name name={killFeedItem.killer} />
             </Box>
             <Box p={1} height={48} style={{ transform: 'scaleX(-1)' }}>
@@ -76,6 +81,6 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
           </Box>
         );
       })}
-    </TableContainer>
+    </div>
   );
 };

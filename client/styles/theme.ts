@@ -45,6 +45,9 @@ const themeOptions: ThemeOptions = {
           fill: 'rgba(255,186,0,0.6)',
           stroke: '#FFBA00',
         },
+        '.player': {
+          fontFamily: 'Rubik'
+        }
       },
     },
   },
