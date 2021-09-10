@@ -16,31 +16,35 @@ const io = new Server(httpServer, {
 });
 const port = 3001;
 const brokers: string | undefined = process.env.KAFKA_BROKERS;
+const groupId: string | undefined = process.env.KAFKA_GROUP_ID;
 
 if (!brokers) {
   throw new Error('please set env variable KAFKA_BROKERS');
 }
 
 const kafka = new Kafka({
-  clientId: 'nodejs-api',
+  clientId: 'nodejs-api-julien',
   brokers: brokers.split(','),
 });
 
 const initKafka = async () => {
-  const consumer = kafka.consumer({ groupId: 'nodejs' });
+  const consumer = kafka.consumer({ groupId: groupId ? groupId : 'nodejs-2' });
 
   await consumer.connect();
-  await consumer.subscribe({ topic: 'raw-live-data', fromBeginning: false });
+  await consumer.subscribe({ topic: 'hl-kill-messages', fromBeginning: false });
 
   await consumer.run({
     eachMessage: async payload => {
-      console.log(payload.message.value?.toString());
-      const killFeedItem: IKillFeedItem = {
-        timestamp: new Date().toISOString(),
-        killer: faker.internet.userName(),
-        target: faker.internet.userName(),
-        weapon: faker.random.arrayElement(['9mmAR', 'gluon gun', 'crowbar', 'rpg_rocket']),
-      };
+      // console.log(payload.message ? JSON.parse(payload.message.value.toString()) : null);
+      // const killFeedItem: IKillFeedItem = {
+      //   timestamp: new Date().toISOString(),
+      //   killer: faker.internet.userName(),
+      //   target: faker.internet.userName(),
+      //   weapon: faker.random.arrayElement(['9mmAR', 'gluon gun', 'crowbar', 'rpg_rocket']),
+      // };
+      const killFeedItem: IKillFeedItem | null = payload.message.value
+        ? JSON.parse(payload.message.value?.toString())
+        : null;
       io.emit(SocketMessageType.KILL_FEED, killFeedItem);
     },
   });

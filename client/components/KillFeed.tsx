@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IKillFeedItem } from '../../shared/types';
+import { TableHead } from '@material-ui/core';
 
 interface Props {
   killFeedItems: IKillFeedItem[];
@@ -16,10 +17,14 @@ interface Props {
 export const KillFeed = ({ killFeedItems }: Props): JSX.Element => (
   <TableContainer component={Paper}>
     <Table size="small">
+      <TableHead>
+        <TableCell>Killer</TableCell>
+        <TableCell>Weapon</TableCell>
+        <TableCell>Target</TableCell>
+      </TableHead>
       <TableBody>
         {killFeedItems.map((killFeedItem, index) => (
           <TableRow style={index % 2 ? { background: 'black' } : { background: 'grey' }}>
-            <TableCell>{killFeedItem.timestamp}</TableCell>
             <TableCell>{killFeedItem.killer}</TableCell>
             <TableCell>
               <img
