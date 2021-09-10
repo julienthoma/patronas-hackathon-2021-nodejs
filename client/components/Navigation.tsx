@@ -14,14 +14,12 @@ export const Navigation = (): JSX.Element => {
         <Box mr={5}>
           <Typography variant="h2" />
         </Box>
-
         <NavigationLink to={AppRoute.StartPage} icon={<Translate />} title="Exporters">
           Home
         </NavigationLink>
         <NavigationLink to={AppRoute.ExamplePage} icon={<LibraryBooks />} title="Export Runs">
           Example
         </NavigationLink>
-        <Button onClick={sound}>Play sound</Button>
       </Toolbar>
     </AppBar>
   );
