@@ -17,8 +17,6 @@ const themeOptions: ThemeOptions = {
         },
         body: {
           height: '100%',
-          paddingTop: '64px',
-          paddingBottom: '26px',
           background: '#2d3436',
         },
         '*::-webkit-scrollbar': {

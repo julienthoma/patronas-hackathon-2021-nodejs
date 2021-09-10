@@ -7,17 +7,26 @@ import { AppRoute } from './types/routes';
 import { StartPage } from './pages/StartPage';
 import { ExamplePage } from './pages/ExamplePage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { SocketMessageType } from '../shared/types';
+import { KillStreak, SocketMessageType } from '../shared/types';
 import { useStoreActions } from './hooks';
+import { killStreakSounds } from './types/KillStreak';
 
 const socket = io('http://localhost:3001');
 
 const App = (): JSX.Element => {
-  const addKillFeedItem = useStoreActions(actions => actions.addKillFeedItem);
+  const { addKillFeedItem, updatePlayers } = useStoreActions(actions => actions);
 
   useEffect(() => {
     socket.on(SocketMessageType.KILL_FEED, data => {
       addKillFeedItem(data);
+    });
+    socket.on(SocketMessageType.PLAYER_FEED, data => {
+      updatePlayers(data);
+    });
+
+    socket.on(SocketMessageType.KILL_STREAK_EVENT, (data: KillStreak) => {
+      console.log(data);
+      new Audio(killStreakSounds[data]).play();
     });
   }, [socket]);
 
@@ -26,7 +35,6 @@ const App = (): JSX.Element => {
       <Helmet>
         <title>HALF LIFE STATS</title>
       </Helmet>
-      <Navigation />
       <Switch>
         <Route path={AppRoute.StartPage} exact>
           <StartPage />
