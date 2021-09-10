@@ -7,18 +7,18 @@ import { AppRoute } from './types/routes';
 import { StartPage } from './pages/StartPage';
 import { ExamplePage } from './pages/ExamplePage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { KillStreak, SocketMessageType } from '../shared/types';
+import { IKillFeedItem, KillStreak, SocketMessageType } from '../shared/types';
 import { useStoreActions } from './hooks';
 import { killStreakSounds } from './types/KillStreak';
 
 const socket = io('http://localhost:3001');
 
 const App = (): JSX.Element => {
-  const { addKillFeedItem, updatePlayers } = useStoreActions(actions => actions);
+  const { addKillFeedItems, updatePlayers } = useStoreActions(actions => actions);
 
   useEffect(() => {
-    socket.on(SocketMessageType.KILL_FEED, data => {
-      addKillFeedItem(data);
+    socket.on(SocketMessageType.KILL_FEED, (data: IKillFeedItem[]) => {
+      addKillFeedItems(data);
     });
     socket.on(SocketMessageType.PLAYER_FEED, data => {
       updatePlayers(data);

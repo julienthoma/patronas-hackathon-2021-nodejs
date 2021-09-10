@@ -4,7 +4,7 @@ import { IKillFeedItem, IPlayer } from '../../shared/types';
 export type IStoreModel = {
   killFeedItems: IKillFeedItem[];
   players: IPlayer[];
-  addKillFeedItem: Action<IStoreModel, IKillFeedItem>;
+  addKillFeedItems: Action<IStoreModel, IKillFeedItem[]>;
   recentKillFeedItems: Computed<IStoreModel, IKillFeedItem[]>;
   updatePlayers: Action<IStoreModel, IPlayer[]>;
 };
@@ -12,8 +12,8 @@ export type IStoreModel = {
 export const store = createStore<IStoreModel>({
   killFeedItems: [],
   players: [],
-  addKillFeedItem: action((state, payload) => {
-    state.killFeedItems.unshift(payload);
+  addKillFeedItems: action((state, payload) => {
+    state.killFeedItems = payload.concat(state.killFeedItems);
   }),
   recentKillFeedItems: computed([state => state.killFeedItems], items => items.slice(0, 10)),
   updatePlayers: action((state, payload) => {

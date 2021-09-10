@@ -4,6 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import { IKillFeedItem, IPlayer, KillStreak, SocketMessageType } from '../shared/types';
+import { KillFeedItem } from '../client/types';
 
 const app = express();
 app.use(cors());
@@ -44,10 +45,11 @@ const getKillStreak = (kills: number): KillStreak => {
 
 const players: Record<string, IPlayer> = {};
 const playerKillStreak: Record<string, number> = {};
+const last10KillFeedItems: IKillFeedItem[] = [];
 
 const initKafka = async () => {
-  const consumer = kafka.consumer({ groupId: groupId ? groupId : 'nodejs-julien' });
-  const consumerPlayer = kafka.consumer({ groupId: `${groupId ? groupId : 'nodejs-julien'}-2` });
+  const consumer = kafka.consumer({ groupId: groupId ? groupId : 'nodejs-julien2' });
+  const consumerPlayer = kafka.consumer({ groupId: `${groupId ? groupId : 'nodejs-julien2'}-2` });
   await consumer.connect();
   await consumerPlayer.connect();
   await consumer.subscribe({ topic: 'hl-kill-messages', fromBeginning: false });
@@ -58,11 +60,16 @@ const initKafka = async () => {
       const killFeedItem: IKillFeedItem | null = payload.message.value
         ? JSON.parse(payload.message.value?.toString())
         : null;
-      io.emit(SocketMessageType.KILL_FEED, killFeedItem);
+      io.emit(SocketMessageType.KILL_FEED, [killFeedItem]);
 
       if (!killFeedItem) {
         return;
       }
+
+      if (last10KillFeedItems.length === 10) {
+        last10KillFeedItems.pop();
+      }
+      last10KillFeedItems.unshift(killFeedItem);
 
       if (killFeedItem.killer) {
         if (!playerKillStreak[killFeedItem.killer]) {
@@ -136,6 +143,8 @@ const initKafka = async () => {
 
 io.on('connection', socket => {
   console.log('user connected');
+  socket.emit(SocketMessageType.PLAYER_FEED, players);
+  socket.emit(SocketMessageType.KILL_FEED, last10KillFeedItems);
 });
 
 initKafka();
