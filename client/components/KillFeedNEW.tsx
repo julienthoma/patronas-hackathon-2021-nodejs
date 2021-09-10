@@ -16,8 +16,8 @@ import { MP5 } from './weapons/MP5';
 import { AssaultShotgun } from './weapons/AssaultShotgun';
 import { Crossbow } from './weapons/Crossbow';
 import { RPG } from './weapons/RPG';
-import { HandGrenade } from './weapons/HandGrenade';
-import { StachelCharge } from './weapons/StachelCharge';
+import { HandGrenade } from './weapons/Grenade';
+import { StachelCharge } from './weapons/Stachel';
 import { GlounGun } from './weapons/GlounGun';
 import { TauCanon } from './weapons/TauCanon';
 import { Name } from './Name';
@@ -52,7 +52,7 @@ export const KillFeedNew = ({ killFeedItems }: Props): JSX.Element => {
             <Box p={2} white-space="nowrap" overflow="hidden" text-overflow="ellipsis"><Name name={killFeedItem.target} /></Box>
          </Box>
           ))}
-   
+
     </TableContainer>
   );
 };
