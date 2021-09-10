@@ -8,27 +8,27 @@ export const StartPage = (): JSX.Element => (
         {
           killerName: 'Test',
           target: 'Test2',
-          weapon: 'AK',
+          weapon: '9mm_pistol',
         },
         {
           killerName: 'Test2',
           target: 'Test3',
-          weapon: 'AK',
+          weapon: 'assault_shotgun',
         },
         {
           killerName: 'Test3',
           target: 'Test4',
-          weapon: 'AK',
+          weapon: 'gloun_gun',
         },
         {
           killerName: 'Test5',
           target: 'Test6',
-          weapon: 'AK',
+          weapon: 'hivehand',
         },
         {
           killerName: 'Test7',
           target: 'Test8',
-          weapon: 'AK',
+          weapon: 'laser_tripmine',
         },
       ]}
     />

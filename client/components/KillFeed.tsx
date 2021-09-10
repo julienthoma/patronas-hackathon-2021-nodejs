@@ -16,18 +16,11 @@ interface Props {
 export const KillFeed = ({ feedItems }: Props): JSX.Element => (
     <TableContainer component={Paper}>
       <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Killer</TableCell>
-            <TableCell>Weapon</TableCell>
-            <TableCell>Target</TableCell>
-          </TableRow>
-        </TableHead>
         <TableBody>
-          {feedItems.map((row) => (
-            <TableRow>
+          {feedItems.map((row, index) => (
+            <TableRow style = { index % 2? { background : "black" }:{ background : "grey" }}>
               <TableCell>{row.killerName}</TableCell>
-              <TableCell>{row.weapon}</TableCell>
+              <TableCell><img height="32px" src={"assets/weapons/"+row.weapon+".svg"}></img></TableCell>
               <TableCell>{row.target}</TableCell>
             </TableRow>
           ))}
