@@ -1,5 +1,5 @@
 import { KillFeedItem } from '../types';
-import React from 'react';
+import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,38 +9,55 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IKillFeedItem } from '../../shared/types';
 import { TableHead } from '@material-ui/core';
+import { Pistol } from './weapons/Pistol';
+import { Crowbar } from './weapons/Crowbar';
+import { ColtPython357Magnum } from './weapons/ColtPython357Magnum';
+import { MP5 } from './weapons/MP5';
+import { AssaultShotgun } from './weapons/AssaultShotgun';
+import { Crossbow } from './weapons/Crossbow';
+import { RPG } from './weapons/RPG';
+import { HandGrenade } from './weapons/HandGrenade';
+import { StachelCharge } from './weapons/StachelCharge';
+import { GlounGun } from './weapons/GlounGun';
+import { TauCanon } from './weapons/TauCanon';
 
 interface Props {
   killFeedItems: IKillFeedItem[];
 }
-
-export const KillFeed = ({ killFeedItems }: Props): JSX.Element => (
-  <TableContainer component={Paper}>
-    <Table size="small">
-      <TableHead>
-        <TableCell>Killer</TableCell>
-        <TableCell>Weapon</TableCell>
-        <TableCell>Target</TableCell>
-      </TableHead>
-      <TableBody>
-        {killFeedItems.map((killFeedItem, index) => (
-          <TableRow style={index % 2 ? { background: 'black' } : { background: 'grey' }}>
-            <TableCell>{killFeedItem.killer}</TableCell>
-            <TableCell>
-              <img
-                className="weapon_icons"
-                height="32px"
-                src={
-                  'assets/weapons/' +
-                  killFeedItem.weapon.replace(new RegExp(' ', 'g'), '_') +
-                  '.svg'
-                }
-              />
-            </TableCell>
-            <TableCell>{killFeedItem.target}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
+  const weapon_mapping: Record<string, any> = {
+    crowbar: <Crowbar />,
+    '9mmhandgun': <Pistol />,
+    '357': <ColtPython357Magnum />,
+    '9mmAR': <MP5 />,
+    shotgun: <AssaultShotgun />,
+    crossbow: <Crossbow />,
+    rpg_rocket: <RPG />,
+    gauss: null,
+    egon: null,
+    hornet: null,
+    handgrenade: <HandGrenade />,
+    'gluon gun': <GlounGun />,
+    tau_cannon: <TauCanon />,
+  }
+  return (
+    <TableContainer component={Paper}>
+      <Table size="small">
+        <TableHead>
+          <TableCell>Killer</TableCell>
+          <TableCell>Weapon</TableCell>
+          <TableCell>Target</TableCell>
+        </TableHead>
+        <TableBody>
+          {killFeedItems.map((killFeedItem, index) => (
+            <TableRow style={index % 2 ? { background: 'black' } : { background: 'grey' }}>
+              <TableCell>{killFeedItem.killer}</TableCell>
+              <TableCell>{weapon_mapping[killFeedItem.weapon]}</TableCell>
+              <TableCell>{killFeedItem.target}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
