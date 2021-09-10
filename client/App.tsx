@@ -11,21 +11,21 @@ import { IKillFeedItem, KillStreak, SocketMessageType } from '../shared/types';
 import { useStoreActions } from './hooks';
 import { killStreakSounds } from './types/KillStreak';
 
-const socket = io('http://ws-akt.patronas.int:3001');
+const socket = io('http://localhost:3001');
 
 const App = (): JSX.Element => {
-  const { addKillFeedItems, updatePlayers } = useStoreActions(actions => actions);
+  const { addKillFeedItem, updatePlayers } = useStoreActions(actions => actions);
 
   useEffect(() => {
-    socket.on(SocketMessageType.KILL_FEED, (data: IKillFeedItem[]) => {
-      addKillFeedItems(data);
+    socket.on(SocketMessageType.KILL_FEED, (data: IKillFeedItem) => {
+      addKillFeedItem(data);
     });
     socket.on(SocketMessageType.PLAYER_FEED, data => {
+      console.log(data);
       updatePlayers(data);
     });
 
     socket.on(SocketMessageType.KILL_STREAK_EVENT, (data: KillStreak) => {
-      console.log(data);
       new Audio(killStreakSounds[data]).play();
     });
   }, [socket]);

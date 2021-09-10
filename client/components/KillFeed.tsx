@@ -41,14 +41,14 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
     rpg_rocket: <RPG />,
     gauss: null,
     egon: null,
-    hornet: <Hornet/>,
+    hornet: <Hornet />,
     grenade: <Grenade />,
     'gluon gun': <GlounGun />,
     tau_cannon: <TauCanon />,
     world: <Death />,
     snark: <Snark />,
     satchel: <Stachel />,
-    tripmine: <Tripmine/>
+    tripmine: <Tripmine />,
   };
 
   const resolveWeapon = (weapon: string) => {
@@ -62,7 +62,6 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
   return (
     <TableContainer component={Paper}>
       {killFeedItems.map((killFeedItem, index) => {
-        console.log(killFeedItem);
         return (
           <Box key={index} m={0.5} height={56} display="flex" alignItems="center" bgcolor="#262424">
             <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">

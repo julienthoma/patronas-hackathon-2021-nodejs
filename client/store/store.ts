@@ -3,20 +3,24 @@ import { IKillFeedItem, IPlayer } from '../../shared/types';
 
 export type IStoreModel = {
   killFeedItems: IKillFeedItem[];
-  players: IPlayer[];
-  addKillFeedItems: Action<IStoreModel, IKillFeedItem[]>;
+  playerMap: Record<string, IPlayer>;
+  players: Computed<IStoreModel, IPlayer[]>;
+  addKillFeedItem: Action<IStoreModel, IKillFeedItem>;
   recentKillFeedItems: Computed<IStoreModel, IKillFeedItem[]>;
-  updatePlayers: Action<IStoreModel, IPlayer[]>;
+  updatePlayers: Action<IStoreModel, Record<string, IPlayer>>;
 };
 
 export const store = createStore<IStoreModel>({
   killFeedItems: [],
-  players: [],
-  addKillFeedItems: action((state, payload) => {
-    state.killFeedItems = payload.concat(state.killFeedItems);
+  playerMap: {},
+  players: computed([state => state.playerMap], playerMap =>
+    Object.keys(playerMap).map(key => playerMap[key])
+  ),
+  addKillFeedItem: action((state, payload) => {
+    state.killFeedItems.unshift(payload);
   }),
   recentKillFeedItems: computed([state => state.killFeedItems], items => items.slice(0, 10)),
   updatePlayers: action((state, payload) => {
-    state.players = payload;
+    state.playerMap = payload;
   }),
 });

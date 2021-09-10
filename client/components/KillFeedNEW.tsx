@@ -1,14 +1,8 @@
-import { KillFeedItem } from '../types';
-import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
+import React from 'react';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IKillFeedItem } from '../../shared/types';
-import { Box, TableHead } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { Pistol } from './weapons/Pistol';
 import { Crowbar } from './weapons/Crowbar';
 import { ColtPython357Magnum } from './weapons/ColtPython357Magnum';
@@ -16,8 +10,7 @@ import { MP5 } from './weapons/MP5';
 import { AssaultShotgun } from './weapons/AssaultShotgun';
 import { Crossbow } from './weapons/Crossbow';
 import { RPG } from './weapons/RPG';
-import { HandGrenade } from './weapons/Grenade';
-import { StachelCharge } from './weapons/Stachel';
+import { Grenade } from './weapons/Grenade';
 import { GlounGun } from './weapons/GlounGun';
 import { TauCanon } from './weapons/TauCanon';
 import { Name } from './Name';
@@ -38,21 +31,25 @@ export const KillFeedNew = ({ killFeedItems }: Props): JSX.Element => {
     gauss: null,
     egon: null,
     hornet: null,
-    handgrenade: <HandGrenade />,
+    handgrenade: <Grenade />,
     'gluon gun': <GlounGun />,
     tau_cannon: <TauCanon />,
   };
   return (
     <TableContainer component={Paper}>
-
-          {killFeedItems.map((killFeedItem, index) => (
-          <Box m={0.5} height={56} display="flex" alignItems="center" bgcolor="#262424">
-            <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis"><Name name={killFeedItem.killer} /></Box>
-            <Box p={2} style={{ transform: 'scaleX(-1)'}}>{weapon_mapping[killFeedItem.weapon]}</Box>
-            <Box p={2} white-space="nowrap" overflow="hidden" text-overflow="ellipsis"><Name name={killFeedItem.target} /></Box>
-         </Box>
-          ))}
-
+      {killFeedItems.map((killFeedItem, index) => (
+        <Box m={0.5} height={56} display="flex" alignItems="center" bgcolor="#262424">
+          <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
+            <Name name={killFeedItem.killer} />
+          </Box>
+          <Box p={2} style={{ transform: 'scaleX(-1)' }}>
+            {weapon_mapping[killFeedItem.weapon]}
+          </Box>
+          <Box p={2} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
+            <Name name={killFeedItem.target} />
+          </Box>
+        </Box>
+      ))}
     </TableContainer>
   );
 };
