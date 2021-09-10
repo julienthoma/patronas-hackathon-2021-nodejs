@@ -4,7 +4,8 @@ export enum SocketMessageType {
 
 export interface IKillFeedItem {
   killer: string;
-  timestamp: string;
   target: string;
   weapon: string;
+  killerWonId: string;
+  targetWonId: string;
 }
