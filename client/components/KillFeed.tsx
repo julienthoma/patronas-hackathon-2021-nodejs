@@ -24,6 +24,7 @@ import { Snark } from './weapons/Snark';
 import { Tripmine } from './weapons/Tripmine';
 import { Grenade } from './weapons/Grenade';
 import { Stachel } from './weapons/Stachel';
+import { Hornet } from './weapons/Hornet';
 
 interface Props {
   killFeedItems: IKillFeedItem[];
@@ -40,7 +41,7 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
     rpg_rocket: <RPG />,
     gauss: null,
     egon: null,
-    hornet: null,
+    hornet: <Hornet/>,
     grenade: <Grenade />,
     'gluon gun': <GlounGun />,
     tau_cannon: <TauCanon />,
