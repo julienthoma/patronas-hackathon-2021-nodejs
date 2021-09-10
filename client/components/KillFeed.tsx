@@ -20,10 +20,12 @@ import { HandGrenade } from './weapons/HandGrenade';
 import { StachelCharge } from './weapons/StachelCharge';
 import { GlounGun } from './weapons/GlounGun';
 import { TauCanon } from './weapons/TauCanon';
+import { Name } from './Name';
 
 interface Props {
   killFeedItems: IKillFeedItem[];
 }
+
 export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
   const weapon_mapping: Record<string, any> = {
     crowbar: <Crowbar />,
@@ -39,7 +41,7 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
     handgrenade: <HandGrenade />,
     'gluon gun': <GlounGun />,
     tau_cannon: <TauCanon />,
-  }
+  };
   return (
     <TableContainer component={Paper}>
       <Table size="small">
@@ -51,9 +53,13 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
         <TableBody>
           {killFeedItems.map((killFeedItem, index) => (
             <TableRow style={index % 2 ? { background: 'black' } : { background: 'grey' }}>
-              <TableCell>{killFeedItem.killer}</TableCell>
+              <TableCell>
+                <Name name={killFeedItem.killer} />
+              </TableCell>
               <TableCell>{weapon_mapping[killFeedItem.weapon]}</TableCell>
-              <TableCell>{killFeedItem.target}</TableCell>
+              <TableCell>
+                <Name name={killFeedItem.target} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
