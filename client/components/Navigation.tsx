@@ -6,6 +6,8 @@ import { NavigationLink } from './NavigationLink';
 
 export const Navigation = (): JSX.Element => {
   const theme = useTheme();
+
+
   return (
     <AppBar style={{ background: theme.palette.type === 'light' ? grey[100] : grey[800] }}>
       <Toolbar>

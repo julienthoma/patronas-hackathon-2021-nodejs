@@ -11,7 +11,7 @@ import { KillStreak, SocketMessageType } from '../shared/types';
 import { useStoreActions } from './hooks';
 import { killStreakSounds } from './types/KillStreak';
 
-const socket = io('http://localhost:3001');
+const socket = io('http://ws-akt.patronas.int:3001');
 
 const App = (): JSX.Element => {
   const { addKillFeedItem, updatePlayers } = useStoreActions(actions => actions);

@@ -16,13 +16,14 @@ import { MP5 } from './weapons/MP5';
 import { AssaultShotgun } from './weapons/AssaultShotgun';
 import { Crossbow } from './weapons/Crossbow';
 import { RPG } from './weapons/RPG';
-import { HandGrenade } from './weapons/HandGrenade';
-import { Stachel, StachelCharge } from './weapons/Stachel';
 import { GlounGun } from './weapons/GlounGun';
 import { TauCanon } from './weapons/TauCanon';
 import { Name } from './Name';
 import { Death } from './weapons/Death';
 import { Snark } from './weapons/Snark';
+import { Tripmine } from './weapons/Tripmine';
+import { Grenade } from './weapons/Grenade';
+import { Stachel } from './weapons/Stachel';
 
 interface Props {
   killFeedItems: IKillFeedItem[];
@@ -40,13 +41,13 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
     gauss: null,
     egon: null,
     hornet: null,
-    handgrenade: <HandGrenade />,
+    grenade: <Grenade />,
     'gluon gun': <GlounGun />,
     tau_cannon: <TauCanon />,
     world: <Death />,
     snark: <Snark />,
-    satchel: <Stachel/>,
-    tripmine: <
+    satchel: <Stachel />,
+    tripmine: <Tripmine/>
   };
 
   const resolveWeapon = (weapon: string) => {
@@ -66,7 +67,7 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
             <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
               <Name name={killFeedItem.killer} />
             </Box>
-            <Box p={2} style={{ transform: 'scaleX(-1)' }}>
+            <Box p={1} height={48} style={{ transform: 'scaleX(-1)' }}>
               {resolveWeapon(killFeedItem.weapon)}
             </Box>
             <Box p={2} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">

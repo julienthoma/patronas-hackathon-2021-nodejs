@@ -16,7 +16,7 @@ import { MP5 } from './weapons/MP5';
 import { AssaultShotgun } from './weapons/AssaultShotgun';
 import { Crossbow } from './weapons/Crossbow';
 import { RPG } from './weapons/RPG';
-import { HandGrenade } from './weapons/HandGrenade';
+import { HandGrenade } from './weapons/Grenade';
 import { StachelCharge } from './weapons/Stachel';
 import { GlounGun } from './weapons/GlounGun';
 import { TauCanon } from './weapons/TauCanon';
