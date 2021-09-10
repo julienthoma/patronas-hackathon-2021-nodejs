@@ -43,6 +43,10 @@ const themeOptions: ThemeOptions = {
         '#root': {
           height: '100%',
         },
+        '.weapon_icons': {
+          transform: "scaleX(-1)",
+          fill: "red"
+        },
       },
     },
   },

@@ -20,7 +20,7 @@ export const KillFeed = ({ feedItems }: Props): JSX.Element => (
           {feedItems.map((row, index) => (
             <TableRow style = { index % 2? { background : "black" }:{ background : "grey" }}>
               <TableCell>{row.killerName}</TableCell>
-              <TableCell><img height="32px" src={"assets/weapons/"+row.weapon+".svg"}></img></TableCell>
+              <TableCell><img className="weapon_icons" height="32px" src={"assets/weapons/"+row.weapon+".svg"}/></TableCell>
               <TableCell>{row.target}</TableCell>
             </TableRow>
           ))}
