@@ -44,7 +44,6 @@ const getKillStreak = (kills: number): KillStreak => {
 };
 
 const players: Record<string, IPlayer> = {};
-const playerKillStreak: Record<string, number> = {};
 const last10KillFeedItems: IKillFeedItem[] = [];
 
 const initKafka = async () => {
@@ -71,24 +70,11 @@ const initKafka = async () => {
       }
       last10KillFeedItems.unshift(killFeedItem);
 
-      if (killFeedItem.killer) {
-        if (!playerKillStreak[killFeedItem.killer]) {
-          playerKillStreak[killFeedItem.killer] = 0;
-        }
-
-        playerKillStreak[killFeedItem.killer]++;
-      }
-
-      if (playerKillStreak[killFeedItem.target]) {
-        playerKillStreak[killFeedItem.target] = 0;
-      }
-
-      if (playerKillStreak[killFeedItem.killer] >= 2) {
+      if (players[killFeedItem.killer].killStreak >= 2) {
         io.emit(
           SocketMessageType.KILL_STREAK_EVENT,
-          getKillStreak(playerKillStreak[killFeedItem.killer])
+          getKillStreak(players[killFeedItem.killer].killStreak)
         );
-        console.log(getKillStreak(playerKillStreak[killFeedItem.killer]));
       }
     },
   });
@@ -110,10 +96,12 @@ const initKafka = async () => {
             steamId: 'asd',
             kills: 0,
             deaths: 0,
+            killStreak: 0,
           };
         }
 
         players[killFeedItem.killer].kills++;
+        players[killFeedItem.killer].killStreak++;
       }
 
       if (!players[killFeedItem.target]) {
@@ -122,10 +110,12 @@ const initKafka = async () => {
           steamId: 'asd',
           kills: 0,
           deaths: 0,
+          killStreak: 0,
         };
       }
 
       players[killFeedItem.target].deaths++;
+      players[killFeedItem.target].killStreak = 0;
 
       io.emit(SocketMessageType.PLAYER_FEED, players);
     },
@@ -140,7 +130,6 @@ const initKafka = async () => {
     messages: [{ key: 'test', value: 'Hello' }],
   });
 };
-
 io.on('connection', socket => {
   console.log('user connected');
   socket.emit(SocketMessageType.PLAYER_FEED, players);

@@ -8,6 +8,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { IKillFeedItem, KillStreak, SocketMessageType } from '../shared/types';
 import { useStoreActions } from './hooks';
 import { killStreakSounds } from './types/KillStreak';
+import './styles/main.css';
 
 const socket = io('http://localhost:3001');
 
@@ -26,7 +27,10 @@ const App = (): JSX.Element => {
     socket.on(SocketMessageType.KILL_STREAK_EVENT, (data: KillStreak) => {
       new Audio(killStreakSounds[data]).play();
     });
-  }, [socket]);
+
+    document.querySelector('#background-video').playbackRate = 0.8;
+    document.querySelector('#background-video').play();
+  }, []);
 
   return (
     <>

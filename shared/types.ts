@@ -2,6 +2,7 @@ export enum SocketMessageType {
   KILL_FEED = 'KILL_FEED',
   PLAYER_FEED = 'PLAYER_FEED',
   KILL_STREAK_EVENT = 'KILL_STREAK_EVENT',
+  KILL_STREAK = 'KILL_STREAK',
 }
 
 export interface IKillFeedItem {
@@ -18,6 +19,7 @@ export interface IPlayer {
   kills: number;
   deaths: number;
   isOnline?: boolean;
+  killStreak: number;
 }
 
 export enum KillStreak {
