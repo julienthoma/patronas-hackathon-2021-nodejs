@@ -12,14 +12,9 @@ const commonConfig = mode => ({
   module: {
     rules: [
       {
-        test: /\.ts(x?)$/,
+        test: /\.tsx?$/,
+        use: 'babel-loader',
         exclude: /node_modules/,
-        use: {
-          loader: 'swc-loader',
-          options: {
-            sync: true,
-          },
-        },
       },
       {
         test: /\.(scss|css)$/,

@@ -1,1 +1,1 @@
-export const ExamplePage = (): JSX.Element => <div>Hello From Example Page</div>;
+export const ExamplePage = (): JSX.Element => <div>Hello From ASDASDASD Page</div>;
