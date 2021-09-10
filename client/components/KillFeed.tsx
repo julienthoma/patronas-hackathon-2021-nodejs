@@ -44,6 +44,8 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
     'gluon gun': <GlounGun />,
     tau_cannon: <TauCanon />,
     world: <Death />,
+    tank: <Death />,
+
     snark: <Snark />,
     satchel: <Stachel />,
     tripmine: <Tripmine />,
