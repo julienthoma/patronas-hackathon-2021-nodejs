@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar, Typography, useTheme } from '@material-ui/core';
+import { AppBar, Box, Button, Toolbar, Typography, useTheme } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
 import { LibraryBooks, Translate } from '@material-ui/icons';
 import { AppRoute } from '../types/routes';
@@ -19,6 +19,7 @@ export const Navigation = (): JSX.Element => {
         <NavigationLink to={AppRoute.ExamplePage} icon={<LibraryBooks />} title="Export Runs">
           Example
         </NavigationLink>
+        <Button onClick={sound}>Play sound</Button>
       </Toolbar>
     </AppBar>
   );
