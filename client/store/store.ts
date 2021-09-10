@@ -1,5 +1,5 @@
 import { action, Action, createStore } from 'easy-peasy';
-import { IKillFeedItem } from '../../server/KillFeedParser';
+import { IKillFeedItem } from '../../shared/types';
 
 export type IStoreModel = {
   killFeedItems: IKillFeedItem[];
