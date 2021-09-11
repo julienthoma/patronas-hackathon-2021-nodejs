@@ -13,7 +13,7 @@ import './styles/main.css';
 const socket = io('http://localhost:3001');
 
 const App = (): JSX.Element => {
-  const { addKillFeedItem, updatePlayers, updateConnectEvents } = useStoreActions(
+  const { addKillFeedItem, updatePlayers, updateConnectEvents, updateWeaponMap } = useStoreActions(
     actions => actions
   );
 
@@ -22,13 +22,15 @@ const App = (): JSX.Element => {
       addKillFeedItem(data);
     });
     socket.on(SocketMessageType.PLAYER_FEED, data => {
-      console.log(data);
       updatePlayers(data);
     });
 
     socket.on(SocketMessageType.CONNECT_FEED, data => {
-      console.log(data);
       updateConnectEvents(data);
+    });
+
+    socket.on(SocketMessageType.WEAPONS, data => {
+      updateWeaponMap(data);
     });
 
     socket.on(SocketMessageType.KILL_STREAK_EVENT, (data: KillStreak) => {

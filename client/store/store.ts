@@ -1,23 +1,26 @@
 import { action, Action, computed, Computed, createStore } from 'easy-peasy';
-import { IKillFeedItem, IPlayer } from '../../shared/types';
+import { IKillFeedItem, IPlayer, IPlayerMap, IWeaponMap } from '../../shared/types';
 import { IConnectEvent } from '../../server/MessageParser';
 
 export type IStoreModel = {
   killFeedItems: IKillFeedItem[];
   connectEvents: IConnectEvent[];
   onlinePlayers: Computed<IStoreModel, IPlayer[]>;
-  playerMap: Record<string, IPlayer>;
+  weaponMap: IWeaponMap;
+  playerMap: IPlayerMap;
   players: Computed<IStoreModel, IPlayer[]>;
   addKillFeedItem: Action<IStoreModel, IKillFeedItem>;
   recentKillFeedItems: Computed<IStoreModel, IKillFeedItem[]>;
   updatePlayers: Action<IStoreModel, Record<string, IPlayer>>;
   updateConnectEvents: Action<IStoreModel, IConnectEvent[]>;
+  updateWeaponMap: Action<IStoreModel, IWeaponMap>;
 };
 
 export const store = createStore<IStoreModel>({
   killFeedItems: [],
   playerMap: {},
   connectEvents: [],
+  weaponMap: {},
   players: computed([state => state.playerMap], playerMap =>
     Object.keys(playerMap).map(key => playerMap[key])
   ),
@@ -50,5 +53,8 @@ export const store = createStore<IStoreModel>({
   }),
   updateConnectEvents: action((state, payload) => {
     state.connectEvents = payload;
+  }),
+  updateWeaponMap: action((state, payload) => {
+    state.weaponMap = payload;
   }),
 });

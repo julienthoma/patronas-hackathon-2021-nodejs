@@ -5,7 +5,14 @@ import { createServer } from 'http';
 import shortid from 'shortid';
 import { Server } from 'socket.io';
 import cors from 'cors';
-import { IKillFeedItem, IPlayer, KillStreak, SocketMessageType } from '../shared/types';
+import {
+  IKillFeedItem,
+  IPlayer,
+  IWeaponMap,
+  IWeaponStats,
+  KillStreak,
+  SocketMessageType,
+} from '../shared/types';
 import {
   IConnectEvent,
   isConnectMessage,
@@ -51,6 +58,7 @@ const getKillStreak = (kills: number): KillStreak => {
 const players: Record<string, IPlayer> = {};
 const last10KillFeedItems: IKillFeedItem[] = [];
 const connectionEvents: IConnectEvent[] = [];
+const weaponMap: IWeaponMap = {};
 
 const initKafka = async () => {
   const admin = kafka.admin();
@@ -139,9 +147,20 @@ const initKafka = async () => {
         return;
       }
 
-      if (parseInt(payload.message.offset) < parseInt('3530')) {
-        return;
+      if (!weaponMap[killFeedItem.weapon]) {
+        weaponMap[killFeedItem.weapon] = {
+          count: 0,
+          players: {},
+        };
       }
+
+      weaponMap[killFeedItem.weapon].count++;
+
+      if (!weaponMap[killFeedItem.weapon].players[killFeedItem.killerWonId]) {
+        weaponMap[killFeedItem.weapon].players[killFeedItem.killerWonId] = 0;
+      }
+
+      weaponMap[killFeedItem.weapon].players[killFeedItem.killerWonId]++;
 
       if (killFeedItem.killerWonId) {
         if (!players[killFeedItem.killerWonId]) {
@@ -175,6 +194,7 @@ const initKafka = async () => {
         return;
       }
       io.emit(SocketMessageType.PLAYER_FEED, players);
+      io.emit(SocketMessageType.WEAPONS, weaponMap);
     },
   });
 
@@ -188,6 +208,7 @@ const initKafka = async () => {
 io.on('connection', socket => {
   console.log('user connected');
   socket.emit(SocketMessageType.PLAYER_FEED, players);
+  socket.emit(SocketMessageType.WEAPONS, weaponMap);
   socket.emit(SocketMessageType.CONNECT_FEED, connectionEvents);
   last10KillFeedItems.map(item => socket.emit(SocketMessageType.KILL_FEED, item));
 });

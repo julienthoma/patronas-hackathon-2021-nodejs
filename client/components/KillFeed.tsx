@@ -25,6 +25,7 @@ import { Tripmine } from './weapons/Tripmine';
 import { Grenade } from './weapons/Grenade';
 import { Stachel } from './weapons/Stachel';
 import { Hornet } from './weapons/Hornet';
+import { Weapon } from './Weapon';
 
 interface Props {
   killFeedItems: IKillFeedItem[];
@@ -69,7 +70,14 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
       </Box>
       {killFeedItems.map((killFeedItem, index) => {
         return (
-          <Box borderRadius={4} key={index} m={0.5} display="flex" alignItems="center" bgcolor="#262424">
+          <Box
+            borderRadius={4}
+            key={index}
+            m={0.5}
+            display="flex"
+            alignItems="center"
+            bgcolor="#262424"
+          >
             <Box
               className="player"
               p={2}
@@ -81,7 +89,7 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
               <Name name={killFeedItem.killer} />
             </Box>
             <Box p={1} height={48} style={{ transform: 'scaleX(-1)' }}>
-              {resolveWeapon(killFeedItem.weapon)}
+              <Weapon weaponName={killFeedItem.weapon} />
             </Box>
             <Box p={2} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
               <Name name={killFeedItem.target} />

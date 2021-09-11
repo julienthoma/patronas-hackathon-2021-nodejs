@@ -3,6 +3,7 @@ export enum SocketMessageType {
   PLAYER_FEED = 'PLAYER_FEED',
   KILL_STREAK_EVENT = 'KILL_STREAK_EVENT',
   CONNECT_FEED = 'CONNECT_FEED',
+  WEAPONS = 'WEAPONS',
 }
 
 export interface IKillFeedItem {
@@ -34,3 +35,11 @@ export enum KillStreak {
 export interface IKillStreak {
   name: KillStreak;
 }
+
+export interface IWeaponStats {
+  count: number;
+  players: Record<string, number>;
+}
+
+export type IWeaponMap = Record<string, IWeaponStats>;
+export type IPlayerMap = Record<string, IPlayer>;
