@@ -23,7 +23,7 @@ if (!brokers) {
 }
 
 const kafka = new Kafka({
-  clientId: 'nodejs-api-julien',
+  clientId: 'nodejs-api-julien2',
   brokers: brokers.split(','),
 });
 
