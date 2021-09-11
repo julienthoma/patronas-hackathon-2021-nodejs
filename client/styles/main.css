@@ -65,14 +65,16 @@
 
 .death {
   animation-name: death;
-  animation-duration: 0.8s;
+  animation-duration: 1.8s;
   display: inline-block;
+  will-change: transform;
 }
 
 .kill {
   animation-name: kill;
-  animation-duration: 0.8s;
+  animation-duration: 1.8s;
   display: inline-block;
+  will-change: transform;
 }
 
 @keyframes death {
@@ -93,7 +95,6 @@
 
 @keyframes kill {
   0% {
-    transform: scale(1);
     color: #beff00;
   }
 
