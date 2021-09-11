@@ -1,6 +1,5 @@
 export const AssaultShotgun = (): JSX.Element => (
   <svg
-    width="100%"
     height="100%"
     viewBox="0 0 192 64"
     fill="none"
