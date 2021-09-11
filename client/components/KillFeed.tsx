@@ -38,6 +38,7 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
     '9mmAR': <MP5 />,
     shotgun: <AssaultShotgun />,
     crossbow: <Crossbow />,
+    bolt: <Crossbow />,
     rpg_rocket: <RPG />,
     hornet: <Hornet />,
     grenade: <Grenade />,
@@ -61,9 +62,14 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
 
   return (
     <div>
+      <Box>
+        <Box p={2} width={192}>
+          Feed
+        </Box>
+      </Box>
       {killFeedItems.map((killFeedItem, index) => {
         return (
-          <Box key={index} m={0.5} height={56} display="flex" alignItems="center" bgcolor="#262424">
+          <Box borderRadius={4} key={index} m={0.5} display="flex" alignItems="center" bgcolor="#262424">
             <Box
               className="player"
               p={2}

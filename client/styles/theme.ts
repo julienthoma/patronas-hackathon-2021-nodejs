@@ -18,6 +18,9 @@ const themeOptions: ThemeOptions = {
         body: {
           height: '100%',
           background: '#2d3436',
+          backgroundImage: 'url("assets/img/stats-background.png")',
+          backgroundSize: 'cover',
+          fontFamily: 'Barlow'
         },
         '*::-webkit-scrollbar': {
           width: '8px',
@@ -44,9 +47,6 @@ const themeOptions: ThemeOptions = {
         '#weapon': {
           fill: 'rgba(255,186,0,0.6)',
           stroke: '#FFBA00',
-        },
-        '.player': {
-          fontFamily: 'Rubik'
         }
       },
     },
