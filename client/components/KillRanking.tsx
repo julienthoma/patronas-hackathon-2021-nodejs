@@ -4,8 +4,15 @@ import { Box } from '@material-ui/core';
 import { Name } from './Name';
 import React from 'react';
 import { IPlayer } from '../../shared/types';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
-export const KillRanking = ({ players }: { players: IPlayer[] }): JSX.Element => {
+export const KillRanking = ({
+  players,
+  connectedPlayers,
+}: {
+  players: IPlayer[];
+  connectedPlayers: IPlayer[];
+}): JSX.Element => {
   return (
     <>
       <Box display="flex">
@@ -41,8 +48,11 @@ export const KillRanking = ({ players }: { players: IPlayer[] }): JSX.Element =>
               <Box p={2} width={56} bgcolor="rgba(33, 33, 33, 0.75)" textAlign="center">
                 {index + 1}.
               </Box>
-              <Box p={2} flex={1} bgcolor="#262424">
-                {player.name}
+              <Box p={2} flex={1} bgcolor="#262424" alignItems="center" display="flex">
+                {player.name} &nbsp;
+                {connectedPlayers.find(p => p.steamId === player.steamId) && (
+                  <FiberManualRecordIcon fontSize="small" style={{ color: 'green' }} />
+                )}
               </Box>
               <Box p={2} width={192} bgcolor="rgba(33, 33, 33, 0.75)">
                 <div className="kill" key={player.kills}>

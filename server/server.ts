@@ -42,8 +42,6 @@ const killStreakEventMap: Record<number, KillStreak> = {
   6: KillStreak.MONSTER_KILL,
   7: KillStreak.MONSTER_KILL,
   8: KillStreak.MONSTER_KILL,
-  9: KillStreak.MONSTER_KILL,
-  10: KillStreak.GOD_LIKE,
 };
 
 const getKillStreak = (kills: number): KillStreak => {
@@ -111,10 +109,14 @@ const initKafka = async () => {
       }
       last10KillFeedItems.unshift(killFeedItem);
 
-      if (players[killFeedItem.killer].killStreak >= 2) {
+      if (!killFeedItem.killer) {
+        return;
+      }
+
+      if (players[killFeedItem.killerWonId].killStreak >= 2) {
         io.emit(
           SocketMessageType.KILL_STREAK_EVENT,
-          getKillStreak(players[killFeedItem.killer].killStreak)
+          getKillStreak(players[killFeedItem.killerWonId].killStreak)
         );
       }
     },
@@ -126,6 +128,7 @@ const initKafka = async () => {
     partition: 0,
   });
 
+  // PLAYER MAP
   await consumerPlayer.run({
     eachMessage: async payload => {
       const killFeedItem: IKillFeedItem | null = payload.message.value
@@ -136,33 +139,37 @@ const initKafka = async () => {
         return;
       }
 
-      if (killFeedItem.killer) {
-        if (!players[killFeedItem.killer]) {
-          players[killFeedItem.killer] = {
+      if (parseInt(payload.message.offset) < parseInt('3530')) {
+        return;
+      }
+
+      if (killFeedItem.killerWonId) {
+        if (!players[killFeedItem.killerWonId]) {
+          players[killFeedItem.killerWonId] = {
             name: killFeedItem.killer,
-            steamId: 'asd',
+            steamId: killFeedItem.killerWonId,
             kills: 0,
             deaths: 0,
             killStreak: 0,
           };
         }
 
-        players[killFeedItem.killer].kills++;
-        players[killFeedItem.killer].killStreak++;
+        players[killFeedItem.killerWonId].kills++;
+        players[killFeedItem.killerWonId].killStreak++;
       }
 
-      if (!players[killFeedItem.target]) {
-        players[killFeedItem.target] = {
+      if (!players[killFeedItem.targetWonId]) {
+        players[killFeedItem.targetWonId] = {
           name: killFeedItem.target,
-          steamId: 'asd',
+          steamId: killFeedItem.targetWonId,
           kills: 0,
           deaths: 0,
           killStreak: 0,
         };
       }
 
-      players[killFeedItem.target].deaths++;
-      players[killFeedItem.target].killStreak = 0;
+      players[killFeedItem.targetWonId].deaths++;
+      players[killFeedItem.targetWonId].killStreak = 0;
 
       if (parseInt(payload.message.offset) < parseInt(topicOffsetKillMessages[0].high)) {
         return;
