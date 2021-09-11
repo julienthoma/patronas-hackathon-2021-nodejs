@@ -1,63 +1,65 @@
+
+
 :root {
-    --size: 400px;
-    --s: calc(var(--size) / 6);
-    --bor: calc(var(--size) / 80);
-    --boxShadow: calc(var(--size) / 12);
+  --size: 400px;
+  --s: calc(var(--size) / 6);
+  --bor: calc(var(--size) / 80);
+  --boxShadow: calc(var(--size) / 12);
 }
 
 .circle {
-    z-index: 1;
-    position: absolute;
-    left: -10px;
-    top: -50px;
-    /*transform: translate(-50%, -50%);*/
-    width: 110%;
-    filter: url(#wavy);
+  z-index: 1;
+  position: absolute;
+  left: -10px;
+  top: -50px;
+  /*transform: translate(-50%, -50%);*/
+  width: 110%;
+  filter: url(#wavy);
 }
 
 .circle:before,
 .circle:after {
-    content: "";
-    position: absolute;
-    top: 40px;
-    height: 66px;
-    width: 91%;
-    left: 5px;
-    border: var(--bor) solid #fff;
+  content: '';
+  position: absolute;
+  top: 40px;
+  height: 66px;
+  width: 91%;
+  left: 5px;
+  border: var(--bor) solid #fff;
 }
 
 .circle:before {
-    box-shadow: 0 0 var(--boxShadow) #0f0, inset 0 0 var(--boxShadow) #0f0;
+  box-shadow: 0 0 var(--boxShadow) #0f0, inset 0 0 var(--boxShadow) #0f0;
 }
 
 .circle-red:before {
-    box-shadow: 0 0 var(--boxShadow) purple, inset 0 0 var(--boxShadow) purple;
+  box-shadow: 0 0 var(--boxShadow) purple, inset 0 0 var(--boxShadow) purple;
 }
 
 .circle:after {
-    box-shadow: 0 0 calc(var(--bor) / 2) #fff, inset 0 0 var(--bor) #fff;
+  box-shadow: 0 0 calc(var(--bor) / 2) #fff, inset 0 0 var(--bor) #fff;
 }
 
 @keyframes move {
-    0% {
-        box-shadow: 0 0 var(--boxShadow) #0f0, inset 0 0 var(--boxShadow) #0f0;
-        filter: hue-rotate(0deg);
-    }
-    20% {
-        box-shadow: 0 0 60px #0f0, inset 0 0 60px #0f0;
-    }
+  0% {
+    box-shadow: 0 0 var(--boxShadow) #0f0, inset 0 0 var(--boxShadow) #0f0;
+    filter: hue-rotate(0deg);
+  }
+  20% {
+    box-shadow: 0 0 60px #0f0, inset 0 0 60px #0f0;
+  }
 
-    40% {
-        box-shadow: 0 0 40px #0f0, inset 0 0 40px #0f0;
-    }
-    60% {
-        box-shadow: 0 0 80px #0f0, inset 0 0 80px #0f0;
-    }
-    80% {
-        box-shadow: 0 0 100px #0f0, inset 0 0 100px #0f0;
-    }
-    100% {
-        box-shadow: 0 0 var(--boxShadow) #0f0, inset 0 0 var(--boxShadow) #0f0;
-        filter: hue-rotate(360deg);
-    }
+  40% {
+    box-shadow: 0 0 40px #0f0, inset 0 0 40px #0f0;
+  }
+  60% {
+    box-shadow: 0 0 80px #0f0, inset 0 0 80px #0f0;
+  }
+  80% {
+    box-shadow: 0 0 100px #0f0, inset 0 0 100px #0f0;
+  }
+  100% {
+    box-shadow: 0 0 var(--boxShadow) #0f0, inset 0 0 var(--boxShadow) #0f0;
+    filter: hue-rotate(360deg);
+  }
 }

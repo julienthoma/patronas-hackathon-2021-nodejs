@@ -7,17 +7,20 @@ import { IPlayer } from '../../shared/types';
 
 export const KillRanking = ({ players }: { players: IPlayer[] }): JSX.Element => (
   <>
-    <Box key={9999} m={0.5} height={56} display="flex" alignItems="center">
-      <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
+    <Box display="flex" gridColumnGap={2}>
+      <Box p={2} width={56} textAlign="center">
+        #
+      </Box>
+      <Box p={2} width={192}>
         Player
       </Box>
-      <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
+      <Box p={2} width={192}>
         Kills
       </Box>
-      <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
+      <Box p={2} width={192}>
         Deaths
       </Box>
-      <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
+      <Box p={2} width={192}>
         K/D
       </Box>
     </Box>
@@ -26,12 +29,11 @@ export const KillRanking = ({ players }: { players: IPlayer[] }): JSX.Element =>
       .map((player, index) => {
         return (
           <Box
+            borderRadius={4}
             key={index}
             m={0.5}
-            height={56}
             display="flex"
             alignItems="center"
-            bgcolor="rgba(33, 33, 33, 0.75)"
             position="relative"
           >
             {player.killStreak >= 8 && (
@@ -55,16 +57,19 @@ export const KillRanking = ({ players }: { players: IPlayer[] }): JSX.Element =>
               </div>
             )}
 
-            <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
-              <Name name={player.name} />
+            <Box p={2} width={56} bgcolor="#262424" textAlign="center">
+              {index + 1}.
             </Box>
-            <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
+            <Box p={2} width={192} bgcolor="rgba(33, 33, 33, 0.75)" >
+              {player.name}
+            </Box>
+            <Box p={2} width={192} bgcolor="#262424">
               {player.kills}
             </Box>
-            <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
+            <Box p={2} width={192} bgcolor="#262424">
               {player.deaths}
             </Box>
-            <Box p={2} width={192} white-space="nowrap" overflow="hidden" text-overflow="ellipsis">
+            <Box p={2} width={192} bgcolor="rgba(33, 33, 33, 0.75)">
               {(player.kills / player.deaths).toFixed(2)}
             </Box>
           </Box>
