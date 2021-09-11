@@ -11,11 +11,11 @@ export const KillRanking = ({ players }: { players: IPlayer[] }): JSX.Element =>
   };
   return (
     <>
-      <Box display="flex" gridColumnGap={2}>
+      <Box display="flex">
         <Box p={2} width={56} textAlign="center">
           #
         </Box>
-        <Box p={2} width={192}>
+        <Box p={2} flex={1}>
           Player
         </Box>
         <Box p={2} width={192}>
@@ -39,32 +39,12 @@ export const KillRanking = ({ players }: { players: IPlayer[] }): JSX.Element =>
               display="flex"
               alignItems="center"
               position="relative"
+              className={player.killStreak >= 5 ? 'onfire' : ''}
             >
-              {player.killStreak >= 8 && (
-                <div
-                  className={player.killStreak > 5 ? 'circle circle-red' : 'circle'}
-                  style={{ transform: 'scale(1)' }}
-                >
-                  <svg>
-                    <filter id="wavy">
-                      <feTurbulence x="0" y="0" baseFrequency="0.009" numOctaves="5" speed="2">
-                        <animate
-                          attributeName="baseFrequency"
-                          dur="60s"
-                          values="0.02; 0.005; 0.02"
-                          repeatCount="indefinite"
-                        />
-                      </feTurbulence>
-                      <feDisplacementMap in="SourceGraphic" scale="30"></feDisplacementMap>
-                    </filter>
-                  </svg>
-                </div>
-              )}
-
               <Box p={2} width={56} bgcolor="rgba(33, 33, 33, 0.75)" textAlign="center">
                 {index + 1}.
               </Box>
-              <Box p={2} width={192} bgcolor="#262424">
+              <Box p={2} flex={1} bgcolor="#262424">
                 {player.name}
               </Box>
               <Box p={2} width={192} bgcolor="rgba(33, 33, 33, 0.75)">
