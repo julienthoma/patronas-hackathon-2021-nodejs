@@ -13,7 +13,9 @@ import './styles/main.css';
 const socket = io('http://localhost:3001');
 
 const App = (): JSX.Element => {
-  const { addKillFeedItem, updatePlayers } = useStoreActions(actions => actions);
+  const { addKillFeedItem, updatePlayers, updateConnectEvents } = useStoreActions(
+    actions => actions
+  );
 
   useEffect(() => {
     socket.on(SocketMessageType.KILL_FEED, (data: IKillFeedItem) => {
@@ -24,12 +26,14 @@ const App = (): JSX.Element => {
       updatePlayers(data);
     });
 
+    socket.on(SocketMessageType.CONNECT_FEED, data => {
+      console.log(data);
+      updateConnectEvents(data);
+    });
+
     socket.on(SocketMessageType.KILL_STREAK_EVENT, (data: KillStreak) => {
       new Audio(killStreakSounds[data]).play();
     });
-
-    document.querySelector('#background-video').playbackRate = 0.8;
-    document.querySelector('#background-video').play();
   }, []);
 
   return (

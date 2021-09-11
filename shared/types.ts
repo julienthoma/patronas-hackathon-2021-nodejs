@@ -2,7 +2,7 @@ export enum SocketMessageType {
   KILL_FEED = 'KILL_FEED',
   PLAYER_FEED = 'PLAYER_FEED',
   KILL_STREAK_EVENT = 'KILL_STREAK_EVENT',
-  KILL_STREAK = 'KILL_STREAK',
+  CONNECT_FEED = 'CONNECT_FEED',
 }
 
 export interface IKillFeedItem {

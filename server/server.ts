@@ -6,6 +6,13 @@ import shortid from 'shortid';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import { IKillFeedItem, IPlayer, KillStreak, SocketMessageType } from '../shared/types';
+import {
+  IConnectEvent,
+  isConnectMessage,
+  parseConnectEvent,
+  rawToCleanedRaw,
+} from './MessageParser';
+import * as fs from 'fs';
 
 const app = express();
 app.use(cors());
@@ -45,8 +52,14 @@ const getKillStreak = (kills: number): KillStreak => {
 
 const players: Record<string, IPlayer> = {};
 const last10KillFeedItems: IKillFeedItem[] = [];
+const connectionEvents: IConnectEvent[] = [];
 
 const initKafka = async () => {
+  const admin = kafka.admin();
+  await admin.connect();
+  const topicOffsetKillMessages = await admin.fetchTopicOffsets('hl-kill-messages');
+  const topicOffsetRaw = await admin.fetchTopicOffsets('raw-live-data');
+  console.log(topicOffsetKillMessages);
   const consumer = kafka.consumer({ groupId: shortid.generate() });
   const consumerPlayer = kafka.consumer({ groupId: shortid.generate() });
   await consumer.connect();
@@ -54,6 +67,34 @@ const initKafka = async () => {
   await consumer.subscribe({ topic: 'hl-kill-messages', fromBeginning: false });
   await consumerPlayer.subscribe({ topic: 'hl-kill-messages', fromBeginning: true });
 
+  const temp: string[] = [];
+
+  // Clean up RAW
+  const cleanUpConsumer = kafka.consumer({ groupId: shortid.generate() });
+  await cleanUpConsumer.connect();
+  await cleanUpConsumer.subscribe({ topic: 'raw-live-data', fromBeginning: true });
+  await cleanUpConsumer.run({
+    eachMessage: async payload => {
+      const cleanedMessageValue = rawToCleanedRaw(payload.message.value);
+
+      if (isConnectMessage(cleanedMessageValue)) {
+        connectionEvents.push(parseConnectEvent(cleanedMessageValue, payload.message.timestamp));
+      }
+
+      if (parseInt(payload.message.offset) < parseInt(topicOffsetRaw[0].high)) {
+        return;
+      }
+      io.emit(SocketMessageType.CONNECT_FEED, connectionEvents);
+    },
+  });
+
+  cleanUpConsumer.seek({
+    topic: 'raw-live-data',
+    offset: '0',
+    partition: 0,
+  });
+
+  // Kill Stream
   await consumer.run({
     eachMessage: async payload => {
       const killFeedItem: IKillFeedItem | null = payload.message.value
@@ -77,6 +118,12 @@ const initKafka = async () => {
         );
       }
     },
+  });
+
+  await consumer.seek({
+    topic: 'hl-kill-messages',
+    offset: String(parseInt(topicOffsetKillMessages[0].high) - 10),
+    partition: 0,
   });
 
   await consumerPlayer.run({
@@ -117,11 +164,12 @@ const initKafka = async () => {
       players[killFeedItem.target].deaths++;
       players[killFeedItem.target].killStreak = 0;
 
+      if (parseInt(payload.message.offset) < parseInt(topicOffsetKillMessages[0].high)) {
+        return;
+      }
       io.emit(SocketMessageType.PLAYER_FEED, players);
     },
   });
-
-  await consumerPlayer.seek({ topic: 'hl-kill-messages', offset: '0', partition: 0 });
 
   const producer = kafka.producer();
   await producer.connect();
@@ -133,6 +181,7 @@ const initKafka = async () => {
 io.on('connection', socket => {
   console.log('user connected');
   socket.emit(SocketMessageType.PLAYER_FEED, players);
+  socket.emit(SocketMessageType.CONNECT_FEED, connectionEvents);
   last10KillFeedItems.map(item => socket.emit(SocketMessageType.KILL_FEED, item));
 });
 
