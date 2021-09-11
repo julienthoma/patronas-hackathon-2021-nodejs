@@ -6,9 +6,6 @@ import React from 'react';
 import { IPlayer } from '../../shared/types';
 
 export const KillRanking = ({ players }: { players: IPlayer[] }): JSX.Element => {
-  const foo = () => {
-    console.log('change happend');
-  };
   return (
     <>
       <Box display="flex">
