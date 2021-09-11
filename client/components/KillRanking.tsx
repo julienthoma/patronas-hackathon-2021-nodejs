@@ -51,7 +51,8 @@ export const KillRanking = ({
               <Box p={2} flex={1} bgcolor="#262424" alignItems="center" display="flex">
                 {player.name} &nbsp;
                 {connectedPlayers.find(p => p.steamId === player.steamId) && (
-                  <FiberManualRecordIcon fontSize="small" style={{ color: 'green' }} />
+                  <div className="blob"></div>
+                  // <FiberManualRecordIcon fontSize="small" style={{ color: 'green' }} />
                 )}
               </Box>
               <Box p={2} width={192} bgcolor="rgba(33, 33, 33, 0.75)">
