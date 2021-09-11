@@ -18,6 +18,8 @@ const themeOptions: ThemeOptions = {
         body: {
           height: '100%',
           background: '#2d3436',
+          backgroundImage: 'url("assets/img/stats-background.png")',
+          backgroundSize: 'cover',
         },
         '*::-webkit-scrollbar': {
           width: '8px',

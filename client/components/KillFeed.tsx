@@ -38,6 +38,7 @@ export const KillFeed = ({ killFeedItems }: Props): JSX.Element => {
     '9mmAR': <MP5 />,
     shotgun: <AssaultShotgun />,
     crossbow: <Crossbow />,
+    bolt: <Crossbow />,
     rpg_rocket: <RPG />,
     hornet: <Hornet />,
     grenade: <Grenade />,

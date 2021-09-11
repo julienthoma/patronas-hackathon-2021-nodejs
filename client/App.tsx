@@ -27,9 +27,6 @@ const App = (): JSX.Element => {
     socket.on(SocketMessageType.KILL_STREAK_EVENT, (data: KillStreak) => {
       new Audio(killStreakSounds[data]).play();
     });
-
-    document.querySelector('#background-video').playbackRate = 0.8;
-    document.querySelector('#background-video').play();
   }, []);
 
   return (
